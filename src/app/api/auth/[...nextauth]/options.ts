@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user._id = token._id;
         session.user.isVerified = token.isVerified;
-        session.user.isAccecptingMessages = token.isAccecptingMessages;
+        session.user.isAcceptingMessage = token.isAcceptingMessage;
         session.user.username = token.username;
       }
       return session;
@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token._id = user._id;
         token.isVerified = user.isVerified;
-        token.isAccecptingMessages = user.isAccecptingMessages;
+        token.isAcceptingMessage = user.isAcceptingMessage;
         token.username = user.username;
       }
       return token;
@@ -78,5 +78,5 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRECT,
+  secret: process.env.NEXTAUTH_SECRET,
 };
