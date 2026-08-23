@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,15 +13,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { X } from "lucide-react";
-import { Button } from "./ui/button";
 import { Message } from "@/model/User";
 import { toast } from "./ui/toast";
 import axios from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
+import { Button } from "./ui/button";
 
 type MessageCardProps = {
   message: Message;
-  onMessageDelete: (messageId: object) => void;
+  onMessageDelete: (messageId: string) => void;
 };
 
 const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
@@ -38,12 +32,12 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     toast.add({
       title: response.data.message,
     });
-    onMessageDelete(message._id);
+    onMessageDelete(message._id.toString());
   };
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
+        <CardTitle>{message.content}</CardTitle>
         <AlertDialog>
           <AlertDialogTrigger>
             <Button variant={"destructive"}>
@@ -66,12 +60,7 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-
-        <CardDescription>Card Description</CardDescription>
       </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
-      </CardContent>
     </Card>
   );
 };
