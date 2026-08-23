@@ -9,6 +9,13 @@ export async function GET() {
   const session = await getServerSession(authOptions);
 
   const user = session?.user;
+
+  if (!session?.user?._id) {
+    return Response.json(
+      { success: false, message: "Not authenticated" },
+      { status: 401 },
+    );
+  }
   if (!user) {
     return Response.json(
       { success: false, message: "User not found" },

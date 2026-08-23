@@ -11,8 +11,7 @@ export async function proxy(request: NextRequest) {
     token &&
     (url.pathname.startsWith("/sign-in") ||
       url.pathname.startsWith("/sign-up") ||
-      url.pathname.startsWith("/verify") ||
-      url.pathname.startsWith("/"))
+      url.pathname.startsWith("/verify"))
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
@@ -24,5 +23,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/sign-in", "/sign-up", "/", "verify/:path*", "dashboard/:path*"],
+  matcher: ["/sign-in", "/sign-up", "/", "/verify/:path*", "/dashboard/:path*"],
 };

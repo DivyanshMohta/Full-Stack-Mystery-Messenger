@@ -53,7 +53,7 @@ export async function GET(request: Request) {
         success: true,
         message: "Username is available",
       },
-      { status: 201 },
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error Checking Username", error);

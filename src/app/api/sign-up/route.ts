@@ -2,6 +2,7 @@ import UserModel from "@/model/User";
 import dbConnect from "@/lib/dbConnect";
 import bcrypt from "bcryptjs";
 import { SendVerificationEmail } from "@/helpers/sendVerificationEmail";
+import { signUpSchema } from "@/schemas/signUpSchema";
 
 // import { NextRequest } from "next/server";
 
@@ -9,7 +10,20 @@ export async function POST(request: Request) {
   await dbConnect();
 
   try {
-    const { username, email, password } = await request.json();
+    const body = await request.json();
+    const result = signUpSchema.safeParse(body);
+
+    if (!result.success) {
+      return Response.json(
+        {
+          success: false,
+          message: "Invalid signup data",
+          errors: result.error.flatten().fieldErrors,
+        },
+        { status: 400 },
+      );
+    }
+    const { username, email, password } = result.data;
 
     const existingUserVerifiedByUsername = await UserModel.findOne({
       username,

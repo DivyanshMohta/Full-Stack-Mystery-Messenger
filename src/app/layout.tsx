@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toast";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+import { Special_Elite, Courier_Prime } from "next/font/google";
+import Navbar from "@/components/Navbar";
+
+const displayFont = Special_Elite({
   subsets: ["latin"],
+  weight: "400",
+  variable: "--font-display",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const bodyFont = Courier_Prime({
   subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-body",
 });
 
 export const metadata: Metadata = {
@@ -23,10 +27,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
     >
       <AuthProvider>
         <body className="min-h-full flex flex-col">
+          <Navbar />
           {children}
           <Toaster />
         </body>
