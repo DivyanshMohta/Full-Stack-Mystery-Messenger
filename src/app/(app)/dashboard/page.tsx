@@ -1,16 +1,11 @@
-/* eslint-disable react-hooks/incompatible-library */
 "use client";
 
 import { Message } from "@/model/User";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import { useSession } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { acceptMessagesSchema } from "@/schemas/acceptMessageSchema";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
-// import { User } from "next-auth";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
@@ -21,38 +16,35 @@ const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitching, setIsSwitching] = useState(false);
+  const [acceptMessages, setAcceptMessages] = useState(false);
 
   const { data: session } = useSession();
-  const handleMessageDelete = (messageId: object) => {
-    setMessages(messages.filter((message) => message._id !== messageId));
+  const handleMessageDelete = (messageId: string) => {
+    setMessages(
+      messages.filter((message) => message._id.toString() !== messageId),
+    );
   };
-
-  const form = useForm({
-    resolver: zodResolver(acceptMessagesSchema),
-  });
-
-  const { register, watch, setValue } = form;
-
-  const acceptMessages = watch("acceptMessages");
-
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitching(true);
+
     try {
       const response = await axios.get<ApiResponse>("/api/accept-message");
-      setValue("acceptMessages", response.data.isAcceptingMessage ?? false);
+
+      setAcceptMessages(response.data.isAcceptingMessage ?? false);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
+
       toast.add({
-        title: "Error ",
+        title: "Error",
         description:
           axiosError.response?.data.message ||
-          "Falied to fetch message accepting status",
+          "Failed to fetch message accepting status",
         type: "error",
       });
     } finally {
       setIsSwitching(false);
     }
-  }, [setValue]);
+  }, []);
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
@@ -70,9 +62,9 @@ const Dashboard = () => {
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         toast.add({
-          title: "Error ",
+          title: "Message Status ",
           description:
-            axiosError.response?.data.message || "Falied to fetch messages",
+            axiosError.response?.data.message || "Failed to fetch messages",
           type: "error",
         });
       } finally {
@@ -85,16 +77,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!session || !session?.user) return;
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchMessages();
     fetchAcceptMessage();
-  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
+  }, [session, fetchAcceptMessage, fetchMessages]);
 
-  const handleSwitchChange = async () => {
+  const handleSwitchChange = async (checked: boolean) => {
+    setIsSwitching(true);
     try {
       const response = await axios.post<ApiResponse>("/api/accept-message", {
-        acceptMessages: !acceptMessages,
+        acceptMessages: checked,
       });
-      setValue("acceptMessages", !acceptMessages);
+      setAcceptMessages(checked);
       toast.add({
         title: response.data.message,
       });
@@ -106,6 +101,8 @@ const Dashboard = () => {
           axiosError.response?.data.message || "Falied to fetch messages",
         type: "error",
       });
+    } finally {
+      setIsSwitching(false);
     }
   };
 
@@ -146,11 +143,11 @@ const Dashboard = () => {
 
       <div className="mb-4">
         <Switch
-          {...register("acceptMessages")}
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitching}
         />
+
         <span className="ml-2">
           Accept Messages: {acceptMessages ? "On" : "Off"}
         </span>

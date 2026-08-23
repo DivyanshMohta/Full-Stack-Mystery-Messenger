@@ -40,6 +40,8 @@ const SignIn = () => {
     });
 
     if (result?.error) {
+      setIsSubmitting(false);
+
       toast.add({
         title: "Login Failed",
         description: "Invalid Credentials",

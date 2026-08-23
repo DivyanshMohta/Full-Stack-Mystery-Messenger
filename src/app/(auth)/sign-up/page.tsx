@@ -46,7 +46,7 @@ export default function SignUpForm() {
         setUsernameMessage(""); // Reset message
         try {
           const response = await axios.get<ApiResponse>(
-            `/api/check-username-unique?username=${username}`,
+            `/api/check-username?username=${username}`,
           );
           setUsernameMessage(response.data.message);
         } catch (error) {
@@ -122,11 +122,11 @@ export default function SignUpForm() {
                   {!isCheckingUsername && usernameMessage && (
                     <p
                       className={`text-sm ${
-                        usernameMessage === "Username is unique"
+                        usernameMessage === "Username is available"
                           ? "text-green-500"
                           : "text-red-500"
                       }`}
-                    >  
+                    >
                       {usernameMessage}
                     </p>
                   )}
