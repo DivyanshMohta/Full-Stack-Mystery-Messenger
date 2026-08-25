@@ -19,7 +19,7 @@ export async function POST(request: Request) {
           success: false,
           message: "User not found",
         },
-        { status: 500 },
+        { status: 404 },
       );
     }
 
@@ -28,7 +28,6 @@ export async function POST(request: Request) {
 
     if (isCodeValid && isCodeNotExpired) {
       user.isVerified = true;
-      user.verifyCode = "";
       user.verifyCodeExpiry = new Date(0);
       await user.save();
 
@@ -55,11 +54,12 @@ export async function POST(request: Request) {
       );
     }
   } catch (error) {
-    console.error("Error Verifying User", error);
+    console.error("Error verifying user", error);
     return Response.json(
       {
         success: false,
-        message: "Error checking username",
+        message:
+          "Something went wrong while verifying your code. Please try again.",
       },
       { status: 500 },
     );
