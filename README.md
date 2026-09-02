@@ -43,7 +43,7 @@ MONGO_URI="mongodb://localhost:27017/mystery-messanger"
 NEXTAUTH_SECRET="replace-with-a-long-random-secret"
 ```
 
-`RESEND_API_KEY` is not required while email verification is disabled. Never commit real secrets to the repository.
+`RESEND_API_KEY` is not required while email verification is disabled. Add your API key to sned verification emails. 
 
 ## Run Locally
 
@@ -116,17 +116,6 @@ public/            Static assets
 | `/api/delete-message/[messageid]` | `DELETE`      | Delete one owned message             | Required         |
 | `/api/accept-message`             | `GET`, `POST` | Read or update message acceptance    | Required         |
 | `/api/verify-code`                | `POST`        | Legacy verification endpoint         | Unused currently |
-
-## Deployment Notes
-
-For a deployment platform such as Vercel:
-
-1. Connect the repository to the platform.
-2. Set `MONGO_URI` and a strong `NEXTAUTH_SECRET` in the project environment variables.
-3. Use the deployed URL as the application URL when configuring NextAuth if required by the provider.
-4. Run the production build locally with `npm run build` before deploying.
-
-The anonymous message endpoint is public. Before using the application with real users, add server-side rate limiting, abuse prevention, and stronger protection for verification and message data.
 
 ## Learning Focus
 
