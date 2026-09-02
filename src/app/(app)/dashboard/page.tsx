@@ -299,7 +299,7 @@ const Dashboard = () => {
         {/* ---- Header: manila folder tab ---- */}
         <div className="mb-8">
           <div
-            className="inline-block -translate-y-[2px] border-2 border-b-0 border-black px-4 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.25em]"
+            className="inline-block -translate-y-0.5 border-2 border-b-0 border-black px-4 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.25em]"
             style={{ backgroundColor: PAPER_AGED }}
           >
             Case File

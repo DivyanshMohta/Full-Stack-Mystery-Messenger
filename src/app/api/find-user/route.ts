@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     const user = await UserModel.findOne({
       username: result.data.username,
-      isVerified: true,
+      // isVerified: true,
     }).select("username");
 
     if (!user) {

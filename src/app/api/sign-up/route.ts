@@ -1,7 +1,7 @@
 import UserModel from "@/model/User";
 import dbConnect from "@/lib/dbConnect";
 import bcrypt from "bcryptjs";
-import { SendVerificationEmail } from "@/helpers/sendVerificationEmail";
+// import { SendVerificationEmail } from "@/helpers/sendVerificationEmail";
 import { signUpSchema } from "@/schemas/signUpSchema";
 
 // import { NextRequest } from "next/server";
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
         password: hashedPassword,
         verifyCode,
         verifyCodeExpiry: expiryDate,
-        isVerified: false,
+        isVerified: true,
         isAcceptingMessage: true,
         message: [],
       });
@@ -81,28 +81,29 @@ export async function POST(request: Request) {
       await newUser.save();
     }
 
-    const emailResponse = await SendVerificationEmail(
-      email,
-      username,
-      verifyCode,
-    );
+    // const emailResponse = await SendVerificationEmail(
+    //   email,
+    //   username,
+    //   verifyCode,
+    // );
 
-    if (!emailResponse.success) {
-      return Response.json(
-        {
-          success: false,
-          message: emailResponse.message,
-        },
-        {
-          status: 500,
-        },
-      );
-    }
+    // if (!emailResponse.success) {
+    //   return Response.json(
+    //     {
+    //       success: false,
+    //       message: emailResponse.message,
+    //     },
+    //     {
+    //       status: 500,
+    //     },
+    //   );
+    // }
 
     return Response.json(
       {
         success: true,
-        message: "User registered successfully. Please verify your email.",
+        message: "User registered successfully.",
+        // message: "User registered successfully. Please verify your email.",
       },
       { status: 201 },
     );

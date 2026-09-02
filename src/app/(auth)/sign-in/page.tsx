@@ -58,6 +58,7 @@ const SignIn = () => {
         type: "error",
       });
     }
+    setIsSubmitting(false);
 
     if (result?.url) {
       router.replace("/dashboard");

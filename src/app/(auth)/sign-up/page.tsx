@@ -83,7 +83,8 @@ export default function SignUpForm() {
         description: response.data.message,
       });
 
-      router.replace(`/verify/${username}`);
+      // router.replace(`/verify/${username}`);
+      router.replace("/sign-in");
 
       setIsSubmitting(false);
     } catch (error) {
@@ -217,12 +218,12 @@ export default function SignUpForm() {
                       Contact Email
                     </FormLabel>
                     <Input {...field} name="email" className={inputClass} />
-                    <p
+                    {/* <p
                       className="text-xs text-black/45"
                       style={{ fontFamily: fontBody }}
                     >
                       A verification code will be sent here.
-                    </p>
+                    </p> */}
                     <FormMessage />
                   </FormItem>
                 )}
