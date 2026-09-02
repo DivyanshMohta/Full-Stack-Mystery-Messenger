@@ -2,6 +2,8 @@
 
 Mystery Messenger is an anonymous feedback application built while learning Next.js. A person can create an account, share a public profile link, receive anonymous messages, and manage those messages from a protected dashboard.
 
+<img width="1914" height="936" alt="image" src="https://github.com/user-attachments/assets/27cb8c1b-604f-4680-818e-0f57c2621911" />
+
 ## Features
 
 - Account signup with username, email, and password
